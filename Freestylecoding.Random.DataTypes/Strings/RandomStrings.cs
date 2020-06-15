@@ -100,7 +100,11 @@ namespace Freestylecoding.Random.DataTypes.Strings {
 			else if( val < 0.9964912281 ) length = 16;
 			else length = 17;
 
-			return random.NextWord( length );
+
+			string word = random.NextWord( length );
+			return random.NextDouble() < 0.005
+				? word.Insert( Math.Max( 0, word.Length - 1 ), "'" )
+				: word;
 		}
 
 		public static string NextWord( this System.Random random, int length ) =>
@@ -145,7 +149,14 @@ namespace Freestylecoding.Random.DataTypes.Strings {
 		}
 
 		public static string NextSentence( this System.Random random, int length ) {
-			string sentence = $"{string.Join( " ", Enumerable.Range( 0, length ).Select( i => random.NextWord() ) ) }.";
+			char terminator = '.';
+			double termChance = random.NextDouble();
+			if( termChance < 0.01 )
+				terminator = '!';
+			else if( termChance < 0.05 )
+				terminator = '?';
+
+			string sentence = $"{string.Join( " ", Enumerable.Range( 0, length ).Select( i => random.NextWord() ) ) }{terminator}";
 			return new string(
 				new[] { char.ToUpper( sentence.First() ) }
 					.Concat( sentence.Skip( 1 ) )
