@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Freestylecoding.Random.DataTypes.Strings {
 	public static class RandomStrings {
@@ -65,6 +64,32 @@ namespace Freestylecoding.Random.DataTypes.Strings {
 			else return 'z';
 		}
 
+		private static int RandomSentenceLength( System.Random random ) {
+			double val = random.NextDouble();
+			if( val < 0.0075757576 ) return 1;
+			else if( val < 0.0227272727 ) return 2;
+			else if( val < 0.0454545455 ) return 3;
+			else if( val < 0.0757575758 ) return 4;
+			else if( val < 0.1136363636 ) return 5;
+			else if( val < 0.1590909091 ) return 6;
+			else if( val < 0.2083333333 ) return 7;
+			else if( val < 0.2613636364 ) return 8;
+			else if( val < 0.3181818182 ) return 9;
+			else if( val < 0.3787878788 ) return 10;
+			else if( val < 0.4431818182 ) return 11;
+			else if( val < 0.5113636364 ) return 12;
+			else if( val < 0.5833333333 ) return 13;
+			else if( val < 0.6590909091 ) return 14;
+			else if( val < 0.7272727273 ) return 15;
+			else if( val < 0.7878787879 ) return 16;
+			else if( val < 0.8409090909 ) return 17;
+			else if( val < 0.8863636364 ) return 18;
+			else if( val < 0.9242424242 ) return 19;
+			else if( val < 0.9545454545 ) return 20;
+			else if( val < 0.9772727273 ) return 21;
+			else if( val < 0.9924242424 ) return 22;
+			else return 23;
+		}
 		private static int RandomParagraphLength( System.Random random ) {
 			int length;
 			double val = random.NextDouble();
@@ -119,33 +144,17 @@ namespace Freestylecoding.Random.DataTypes.Strings {
 			);
 
 		public static string NextSentence( this System.Random random ) {
-			int length;
-			double val = random.NextDouble();
-			if( val < 0.0075757576 ) length = 1;
-			else if( val < 0.0227272727 ) length = 2;
-			else if( val < 0.0454545455 ) length = 3;
-			else if( val < 0.0757575758 ) length = 4;
-			else if( val < 0.1136363636 ) length = 5;
-			else if( val < 0.1590909091 ) length = 6;
-			else if( val < 0.2083333333 ) length = 7;
-			else if( val < 0.2613636364 ) length = 8;
-			else if( val < 0.3181818182 ) length = 9;
-			else if( val < 0.3787878788 ) length = 10;
-			else if( val < 0.4431818182 ) length = 11;
-			else if( val < 0.5113636364 ) length = 12;
-			else if( val < 0.5833333333 ) length = 13;
-			else if( val < 0.6590909091 ) length = 14;
-			else if( val < 0.7272727273 ) length = 15;
-			else if( val < 0.7878787879 ) length = 16;
-			else if( val < 0.8409090909 ) length = 17;
-			else if( val < 0.8863636364 ) length = 18;
-			else if( val < 0.9242424242 ) length = 19;
-			else if( val < 0.9545454545 ) length = 20;
-			else if( val < 0.9772727273 ) length = 21;
-			else if( val < 0.9924242424 ) length = 22;
-			else length = 23;
+			string sentence = random.NextSentence( RandomSentenceLength( random ) );
+			if( new[] { '"', '(' }.Contains( sentence.First() ) ) return sentence;
+			if( new[] { '"', ')' }.Contains( sentence.Last() ) ) return sentence;
 
-			return random.NextSentence( length );
+			double val = random.NextDouble();
+			if( val < 0.001 )
+				return $"{sentence.TrimEnd( '.', '?', '!' )}; {random.NextSentence( RandomSentenceLength( random ) ).Substring( 1 ).Trim()}";
+			else if( val < 0.03 )
+				return $"{sentence.TrimEnd( '.', '?', '!' )}, {random.NextSentence( RandomSentenceLength( random ) ).Substring( 1 ).Trim()}";
+			else
+				return sentence;
 		}
 
 		public static string NextSentence( this System.Random random, int length ) {
@@ -156,12 +165,33 @@ namespace Freestylecoding.Random.DataTypes.Strings {
 			else if( termChance < 0.05 )
 				terminator = '?';
 
-			string sentence = $"{string.Join( " ", Enumerable.Range( 0, length ).Select( i => random.NextWord() ) ) }{terminator}";
-			return new string(
-				new[] { char.ToUpper( sentence.First() ) }
-					.Concat( sentence.Skip( 1 ) )
+			string[] words =
+				Enumerable
+					.Range( 0, length )
+					.Select( i => random.NextWord() )
+					.ToArray();
+
+			words[0] = new string(
+				new[] { char.ToUpper( words[0][0] ) }
+					.Concat( words[0].Skip( 1 ) )
 					.ToArray()
 			);
+			words[words.Length - 1] += terminator;
+
+			double delimiterChance = random.NextDouble();
+			if( delimiterChance < 0.05 ) {
+				int start = random.Next( 0, length - 1 );
+				int end = random.Next( start + 1, length );
+				words[start] = "(" + words[start];
+				words[end] += ")";
+			}  else if( delimiterChance < 0.2 ){
+				int start = random.Next( 0, length - 1 );
+				int end = random.Next( start + 1, length );
+				words[start] = "\"" + words[start];
+				words[end] += "\"";
+			}
+
+			return string.Join( " ", words );
 		}
 
 		public static string NextParagraph( this System.Random random ) =>

@@ -8,7 +8,7 @@ namespace TestApp {
 			Random r = new Random();
 
 			//foreach( int i in Enumerable.Range( 0, 20 ) )
-				Console.WriteLine( r.NextBlobText( 1000, 10000 ) );
+				Console.WriteLine( r.NextBlobText( 10000, 100000 ) );
 		}
 	}
 }
