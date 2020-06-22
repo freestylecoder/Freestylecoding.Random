@@ -179,16 +179,24 @@ namespace Freestylecoding.Random.DataTypes.Strings {
 			words[words.Length - 1] += terminator;
 
 			double delimiterChance = random.NextDouble();
-			if( delimiterChance < 0.05 ) {
+			if( delimiterChance < 0.2 ) {
 				int start = random.Next( 0, length - 1 );
 				int end = random.Next( start + 1, length );
-				words[start] = "(" + words[start];
-				words[end] += ")";
-			}  else if( delimiterChance < 0.2 ){
-				int start = random.Next( 0, length - 1 );
-				int end = random.Next( start + 1, length );
-				words[start] = "\"" + words[start];
-				words[end] += "\"";
+
+				if( 1 == length ) {
+					start = end = 0;
+				} else {
+					start = random.Next( 0, length - 1 );
+					end = random.Next( start + 1, length );
+				}
+
+				if( delimiterChance < 0.05 ) {
+					words[start] = "(" + words[start];
+					words[end] += ")";
+				} else {
+					words[start] = "\"" + words[start];
+					words[end] += "\"";
+				}
 			}
 
 			return string.Join( " ", words );
@@ -208,9 +216,18 @@ namespace Freestylecoding.Random.DataTypes.Strings {
 				lines.Add( random.NextSentence() );
 
 			while( MaxLength < lines.Sum( s => s.Length ) ) {
-				string lastLine = string.Join(
+				string lastLine = lines.Last()
+					.Replace( ",", "" )
+					.Replace( ";", "" )
+					.Replace( "(", "" )
+					.Replace( ")", "" )
+					.Replace( "\"", "" );
+
+				char lastChar = lastLine.Last();
+				
+				lastLine = string.Join(
 					" ",
-					lines.Last()
+					lastLine
 						.Split( ' ' )
 						.Reverse()
 						.Skip( 1 )
@@ -220,7 +237,7 @@ namespace Freestylecoding.Random.DataTypes.Strings {
 				if( string.IsNullOrWhiteSpace( lastLine ) )
 					lines.RemoveAt( lines.Count - 1 );
 				else
-					lines[lines.Count - 1] = $"{lastLine}.";
+					lines[lines.Count - 1] = $"{lastLine}{lastChar}";
 			}
 
 			int Position = RandomParagraphLength( random );
