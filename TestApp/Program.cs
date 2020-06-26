@@ -6,9 +6,7 @@ namespace TestApp {
 	class Program {
 		static void Main( string[] args ) {
 			Random r = new Random();
-
-			//foreach( int i in Enumerable.Range( 0, 20 ) )
-				Console.WriteLine( r.NextBlobText( 10000, 100000 ) );
+			Console.WriteLine( r.NextBlobText( 10000, 100000 ) );
 		}
 	}
 }
