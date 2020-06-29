@@ -5,16 +5,52 @@ using System.Runtime.CompilerServices;
 namespace Freestylecoding.Random.DataTypes {
 	public static class RandomDataTypes {
 		#region bool
+		/// <summary>Returns a random boolean value.</summary>
+		/// <returns>A random boolean value.</returns>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static bool NextBoolean( this System.Random random ) =>
 			0.5 < random.NextDouble();
 		#endregion
 
 		#region char
+		/// <summary>Returns a random character.</summary>
+		/// <returns>A character that is greater than or equal to <see cref="System.Char.MinValue"/> and less than <see cref="System.Char.MaxValue"/>.</returns>
+		/// <remarks>
+		///		<see cref="Random.DataTypes.RandomDataTypes.NextChar(System.Random)"/> generates a random character whose value ranges from <see cref="System.Char.MinValue"/> to less than <see cref="System.Char.MaxValue"/>.
+		///		To generate a random character whose value ranges from <see cref="System.Char.MinValue"/> to some other character, use the <see cref="Random.DataTypes.RandomDataTypes.NextChar(System.Random, char)"/> method overload.
+		///		To generate a random character within a different range, use the <see cref="Random.DataTypes.RandomDataTypes.NextChar(System.Random, char, char)"/> method overload.
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static char NextChar( this System.Random random ) => random.NextChar( char.MaxValue );
+		/// <summary>Returns a random character that is less than the specified maximum.</summary>
+		/// <param name="MaxValue">
+		///		The exclusive upper bound of the random character to be generated.
+		///	</param>
+		/// <returns>
+		///		A character that is greater than or equal to <see cref="System.Char.MinValue"/>, and less than maxValue; that is, the range of return values ordinarily includes <see cref="System.Char.MinValue"/> but not maxValue.
+		///		However, if maxValue equals <see cref="System.Char.MinValue"/>, maxValue is returned.
+		/// </returns>
+		/// <remarks>
+		///		The <see cref="Random.DataTypes.RandomDataTypes.NextChar(System.Random, char)"/> overload returns random characters that range from <see cref="System.Char.MinValue"/> to the Unicode character before maxValue.
+		///		However, if maxValue is <see cref="System.Char.MinValue"/>, the method returns <see cref="System.Char.MinValue"/>.
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static char NextChar( this System.Random random, char MaxValue ) => random.NextChar( '\u0000', MaxValue );
+		/// <summary>Returns a random character that is within a specified range.</summary>
+		/// <param name="MinValue">The inclusive lower bound of the random character returned.</param>
+		/// <param name="MaxValue">
+		///		The exclusive upper bound of the random character returned.
+		///		maxValue must be greater than or equal to minValue.
+		///	</param>
+		/// <returns>
+		///		A character greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue.
+		///		If minValue equals maxValue, minValue is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException">minValue is greater than maxValue.</exception>
+		/// <remarks>
+		///		The <see cref="Random.DataTypes.RandomDataTypes.NextChar(System.Random, char, char)"/> overload returns random integers that range from minValue to the Unicode character before maxValue.
+		///		However, if maxValue equals minValue, the method returns minValue.
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static char NextChar( this System.Random random, char MinValue, char MaxValue ) =>
 			Convert.ToChar( random.Next( MinValue, MaxValue ) );
@@ -39,8 +75,40 @@ namespace Freestylecoding.Random.DataTypes {
 		#endregion
 
 		#region double
+		/// <summary>Returns a random double-precision floating-point number that is greater than or equal to 0.0, and less than the specified maximum.</summary>
+		/// <param name="MaxValue">
+		///		The exclusive upper bound of the random number to be generated.
+		///		maxValue must be greater than or equal to 0.0.
+		///	</param>
+		/// <returns>
+		///		A double-precision floating point number that is greater than or equal to 0.0, and less than maxValue; that is, the range of return values ordinarily includes 0.0 but not maxValue.
+		///		However, if maxValue equals 0.0, maxValue is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException">maxValue is less than 0.0.</exception>
+		/// <remarks>
+		///		The NextDouble(Double) overload returns random double-precision floating point numbers that range from 0.0 to maxValue – 0.00000000000000022.
+		///		However, if maxValue is 0.0, the method returns 0.0.
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static double NextDouble( this System.Random random, double MaxValue ) => random.NextDouble( 0.0, MaxValue );
+		/// <summary>Returns a random double-precision floating point number that is within a specified range.</summary>
+		/// <param name="MinValue">The inclusive lower bound of the random number returned.</param>
+		/// <param name="MaxValue">
+		///		The exclusive upper bound of the random number returned.
+		///		maxValue must be greater than or equal to minValue.
+		///	</param>
+		/// <returns>
+		///		A double-precision floating point number greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue.
+		///		If minValue equals maxValue, minValue is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException">minValue is greater than maxValue.</exception>
+		/// <remarks>
+		///		<para>
+		///			The NextDouble(Double, Double) overload returns random integers that range from minValue to maxValue – 0.00000000000000022.
+		///			However, if maxValue equals minValue, the method returns minValue.
+		///		</para>
+		///		<para>Unlike the other overloads of the NextDouble method, which return only non-negative values, this method can return a negative random double-precision floating point number.</para>
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static double NextDouble( this System.Random random, double MinValue, double MaxValue ) =>
 			( random.NextDouble() * ( MaxValue - MinValue ) ) + MinValue;
@@ -57,10 +125,46 @@ namespace Freestylecoding.Random.DataTypes {
 		#endregion
 
 		#region int
+		/// <summary>Returns a non-negative random integer.</summary>
+		/// <returns>A 32-bit signed integer that is greater than or equal to 0 and less than <see cref="System.Int32.MaxValue"/>.</returns>
+		/// <remarks>
+		///		<see cref="Random.DataTypes.RandomDataTypes.NextInt32(System.Random)"/> generates a random number whose value ranges from 0 to less than <see cref="System.Int32.MaxValue"/>.
+		///		To generate a random number whose value ranges from 0 to some other positive number, use the <see cref="Random.DataTypes.RandomDataTypes.NextInt32(System.Random, int)"/> method overload.
+		///		To generate a random number within a different range, use the <see cref="Random.DataTypes.RandomDataTypes.NextInt32(System.Random, int, int)"/> method overload.
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static int NextInt32( this System.Random random ) => random.Next();
+		/// <summary>Returns a non-negative random integer that is less than the specified maximum.</summary>
+		/// <param name="MaxValue">The exclusive upper bound of the random number to be generated. maxValue must be greater than or equal to 0.</param>
+		/// <returns>
+		///		A 32-bit signed integer that is greater than or equal to 0, and less than maxValue; that is, the range of return values ordinarily includes 0 but not maxValue.
+		///		However, if maxValue equals 0, maxValue is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException">maxValue is less than 0.</exception>
+		/// <remarks>
+		///		The NextInt32(Int32) overload returns random integers that range from 0 to maxValue – 1.
+		///		However, if maxValue is 0, the method returns 0.
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static int NextInt32( this System.Random random, int MaxValue ) => random.Next( MaxValue );
+		/// <summary>Returns a random integer that is within a specified range.</summary>
+		/// <param name="MinValue">The inclusive lower bound of the random number returned.</param>
+		/// <param name="MaxValue">
+		///		The exclusive upper bound of the random number returned.
+		///		maxValue must be greater than or equal to minValue.
+		///	</param>
+		/// <returns>
+		///		A 32-bit signed integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue.
+		///		If minValue equals maxValue, minValue is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException">minValue is greater than maxValue.</exception>
+		/// <remarks>
+		///		<para>
+		///			The NextInt32(Int32, Int32) overload returns random integers that range from minValue to maxValue – 1.
+		///			However, if maxValue equals minValue, the method returns minValue.
+		///		</para>
+		///		<para>Unlike the other overloads of the NextInt32 method, which return only non-negative values, this method can return a negative random integer.</para>
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static int NextInt32( this System.Random random, int MinValue, int MaxValue ) =>
 			random.Next( MinValue, MaxValue );
