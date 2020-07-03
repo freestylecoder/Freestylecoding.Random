@@ -253,6 +253,3 @@ namespace Freestylecoding.Random.DataTypes.Strings {
 		}
 	}
 }
-/*
-
-*/

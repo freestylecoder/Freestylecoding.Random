@@ -65,13 +65,65 @@ namespace Freestylecoding.Random.DataTypes {
 		#endregion
 
 		#region decimal
+		/// <summary>Returns a random decimal number that is greater than or equal to 0m, and less 1m.</summary>
+		/// <returns>
+		///		A decimal that is greater than or equal to 0m, and less than 1m.
+		/// </returns>
+		/// <remarks>
+		///		<para>
+		///			Due to rounding errors with decimals, there is an EXTREMELY small chance that 1m will be selected.
+		///			If this is a concern, please add checks in the client code.
+		///		</para>	
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static decimal NextDecimal( this System.Random random ) => random.NextDecimal( 0, decimal.MaxValue );
+		/// <summary>Returns a random decimal number that is greater than or equal to 0m, and less than the specified maximum.</summary>
+		/// <param name="maxValue">
+		///		The exclusive upper bound of the random number to be generated.
+		///		<paramref name="maxValue"/> must be greater than or equal to 0m.
+		///	</param>
+		/// <returns>
+		///		A decimal number that is greater than or equal to 0m, and less than <paramref name="maxValue"/>; that is, the range of return values ordinarily includes 0m but not <paramref name="maxValue"/>.
+		///		However, if <paramref name="maxValue"/> equals 0m, 0m is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than 0m.</exception>
+		/// <remarks>
+		///		<para>
+		///		The <see cref="Random.DataTypes.RandomDataTypes.NextDecimal(System.Random, decimal)"/> overload returns random decimal numbers that range from 0M to <paramref name="maxValue"/>.
+		///		However, if <paramref name="maxValue"/> is 0m, the method returns 0m.
+		///		</para>
+		///		<para>
+		///			Due to rounding errors with decimals, there is an EXTREMELY small chance that <paramref name="maxValue"/> will be selected.
+		///			If this is a concern, please add checks in the client code.
+		///		</para>	
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static decimal NextDecimal( this System.Random random, decimal MaxValue ) => random.NextDecimal( 0, MaxValue );
+		public static decimal NextDecimal( this System.Random random, decimal maxValue ) => random.NextDecimal( 0, maxValue );
+		/// <summary>Returns a decimal number that is within a specified range.</summary>
+		/// <param name="minValue">The inclusive lower bound of the random number returned.</param>
+		/// <param name="maxValue">
+		///		The exclusive upper bound of the random number returned.
+		///		<paramref name="maxValue"/> must be greater than or equal to <paramref name="minValue"/>.
+		///	</param>
+		/// <returns>
+		///		A decimal number greater than or equal to <paramref name="minValue"/> and less than <paramref name="maxValue"/>; that is, the range of return values includes <paramref name="minValue"/> but not <paramref name="maxValue"/>.
+		///		If <paramref name="minValue"/> equals <paramref name="maxValue"/>, <paramref name="minValue"/> is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
+		/// <remarks>
+		///		<para>
+		///			The <see cref="Random.DataTypes.RandomDataTypes.NextDouble(System.Random, decimal, decimal)"/> overload returns random double-precision floating-point that range from <paramref name="minValue"/> to <paramref name="maxValue"/>.
+		///			However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, the method returns <paramref name="minValue"/>.
+		///		</para>
+		///		<para>Unlike the other overloads of the NextDecimal method, which return only non-negative values, this method can return a negative random decimal number.</para>
+		///		<para>
+		///			Due to rounding errors with decimals, there is an EXTREMELY small chance that <paramref name="maxValue"/> will be selected.
+		///			If this is a concern, please add checks in the client code.
+		///		</para>	
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static decimal NextDecimal( this System.Random random, decimal MinValue, decimal MaxValue ) =>
-			Convert.ToDecimal( random.NextDouble( Convert.ToDouble( MinValue ), Convert.ToDouble( MaxValue ) ) );
+		public static decimal NextDecimal( this System.Random random, decimal minValue, decimal maxValue ) =>
+			Convert.ToDecimal( random.NextDouble( Convert.ToDouble( minValue ), Convert.ToDouble( maxValue ) ) );
 		#endregion
 
 		#region double
@@ -273,13 +325,66 @@ namespace Freestylecoding.Random.DataTypes {
 		#endregion
 
 		#region float
+		/// <summary>Returns a random single-precision floating-point number that is greater than or equal to 0f, and less 1f.</summary>
+		/// <returns>
+		///		A double-precision floating point number that is greater than or equal to 0f, and less than 1f.
+		/// </returns>
+		/// <remarks>
+		///		<para>
+		///			Due to rounding errors with floats, there is an EXTREMELY small chance that 1f will be selected.
+		///			If this is a concern, please add checks in the client code.
+		///		</para>	
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static float NextSingle( this System.Random random ) => random.NextSingle( float.MaxValue );
+		/// <summary>Returns a random single-precision floating-point number that is greater than or equal to 0f, and less than the specified maximum.</summary>
+		/// <param name="maxValue">
+		///		The exclusive upper bound of the random number to be generated.
+		///		<paramref name="maxValue"/> must be greater than or equal to 0f.
+		///	</param>
+		/// <returns>
+		///		A double-precision floating point number that is greater than or equal to 0f, and less than <paramref name="maxValue"/>; that is, the range of return values ordinarily includes 0f but not <paramref name="maxValue"/>.
+		///		However, if <paramref name="maxValue"/> equals 0f, 0f is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than 0f.</exception>
+		/// <remarks>
+		///		<para>
+		///			The <see cref="Random.DataTypes.RandomDataTypes.NextDouble(System.Random, float)"/> overload returns random single-precision floating point numbers that range from 0f to <paramref name="maxValue"/>.
+		///			However, if <paramref name="maxValue"/> is 0f, the method returns 0f.
+		///		</para>
+		///		<para>
+		///			Due to rounding errors with floats, there is an EXTREMELY small chance that <paramref name="maxValue"/> will be selected.
+		///			If this is a concern, please add checks in the client code.
+		///		</para>	
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static float NextSingle( this System.Random random, float MaxValue ) => random.NextSingle( 0, MaxValue );
+		public static float NextSingle( this System.Random random, float maxValue ) => random.NextSingle( 0, maxValue );
+		/// <summary>Returns a random single-precision floating point number that is within a specified range.</summary>
+		/// <param name="minValue">The inclusive lower bound of the random number returned.</param>
+		/// <param name="maxValue">
+		///		The exclusive upper bound of the random number returned.
+		///		<paramref name="maxValue"/> must be greater than or equal to <paramref name="minValue"/>.
+		///	</param>
+		/// <returns>
+		///		A single-precision floating point number greater than or equal to <paramref name="minValue"/> and less than <paramref name="maxValue"/>; that is, the range of return values includes <paramref name="minValue"/> but not <paramref name="maxValue"/>.
+		///		If <paramref name="minValue"/> equals <paramref name="maxValue"/>, <paramref name="minValue"/> is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
+		/// <remarks>
+		///		<para>
+		///			The <see cref="Random.DataTypes.RandomDataTypes.NextDouble(System.Random, float, float)"/> overload returns random single-precision floating-point that range from <paramref name="minValue"/> to <paramref name="maxValue"/>.
+		///			However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, the method returns <paramref name="minValue"/>.
+		///		</para>
+		///		<para>Unlike the other overloads of the NextDouble method, which return only non-negative values, this method can return a negative random single-precision floating point number.</para>
+		///		<para>
+		///			Due to rounding errors with floats, there is an EXTREMELY small chance that <paramref name="maxValue"/> will be selected.
+		///			If this is a concern, please add checks in the client code.
+		///		</para>	
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static float NextSingle( this System.Random random, float MinValue, float MaxValue ) =>
-			Convert.ToSingle( random.NextDouble( MinValue, MaxValue ) );
+		public static float NextSingle( this System.Random random, float minValue, float maxValue ) =>
+			// TODO: Make sure MaxValue cannot be returned
+			Convert.ToSingle( random.NextDouble( minValue, maxValue ) );
 		#endregion
 
 		#region TimeSpan
