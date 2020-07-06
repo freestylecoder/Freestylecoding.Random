@@ -57,11 +57,49 @@ namespace Freestylecoding.Random.DataTypes {
 		#endregion
 
 		#region DateTime
+		/// <summary>Returns a random DateTime that is greater than or equal to <see cref="System.DateTime.MinValue"/>, and less <see cref="System.DateTime.MaxValue"/></summary>
+		/// <returns>
+		///		A DateTime that is greater than or equal to <see cref="System.DateTime.MinValue"/>, and less than <see cref="System.DateTime.MaxValue"/>.
+		/// </returns>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static DateTime NextDateTime( this System.Random random ) => random.NextDateTime( DateTime.MinValue, DateTime.MaxValue );
-		public static DateTime NextDateTime( this System.Random random, DateTime MaxValue ) => random.NextDateTime( DateTime.MinValue, MaxValue );
-		public static DateTime NextDateTime( this System.Random random, DateTime MinValue, DateTime MaxValue ) =>
-			new DateTime( random.NextInt64( MinValue.Ticks, MaxValue.Ticks ) );
+		/// <summary>Returns a random DateTime that is greater than or equal to <see cref="System.DateTime.MinValue"/>, and less than the specified maximum.</summary>
+		/// <param name="maxValue">
+		///		The exclusive upper bound of the random number to be generated.
+		///		<paramref name="maxValue"/> must be greater than or equal to <see cref="System.DateTime.MinValue"/>.
+		///	</param>
+		/// <returns>
+		///		A DateTime that is greater than or equal to <see cref="System.DateTime.MinValue"/>, and less than <paramref name="maxValue"/>; that is, the range of return values ordinarily includes <see cref="System.DateTime.MinValue"/> but not <paramref name="maxValue"/>.
+		///		However, if <paramref name="maxValue"/> equals <see cref="System.DateTime.MinValue"/>, <see cref="System.DateTime.MinValue"/> is returned.
+		/// </returns>
+		/// <remarks>
+		///		<para>
+		///		The <see cref="Random.DataTypes.RandomDataTypes.NextDateTime(System.Random,DateTime)"/> overload returns random DateTimes that range from <see cref="System.DateTime.MinValue"/> to <paramref name="maxValue"/>.
+		///		However, if <paramref name="maxValue"/> is <see cref="System.DateTime.MinValue"/>, the method returns <see cref="System.DateTime.MinValue"/>.
+		///		</para>
+		/// </remarks>
+		[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static DateTime NextDateTime( this System.Random random, DateTime maxValue ) => random.NextDateTime( DateTime.MinValue, maxValue );
+		/// <summary>Returns a DateTime that is within a specified range.</summary>
+		/// <param name="minValue">The inclusive lower bound of the random number returned.</param>
+		/// <param name="maxValue">
+		///		The exclusive upper bound of the random number returned.
+		///		<paramref name="maxValue"/> must be greater than or equal to <paramref name="minValue"/>.
+		///	</param>
+		/// <returns>
+		///		A DateTime greater than or equal to <paramref name="minValue"/> and less than <paramref name="maxValue"/>; that is, the range of return values includes <paramref name="minValue"/> but not <paramref name="maxValue"/>.
+		///		If <paramref name="minValue"/> equals <paramref name="maxValue"/>, <paramref name="minValue"/> is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
+		/// <remarks>
+		///		<para>
+		///			The <see cref="Random.DataTypes.RandomDataTypes.NextDateTime(System.Random, System.DateTime, System.DateTime)"/> overload returns random DateTimes that range from <paramref name="minValue"/> to <paramref name="maxValue"/>.
+		///			However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, the method returns <paramref name="minValue"/>.
+		///		</para>
+		/// </remarks>
+		[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static DateTime NextDateTime( this System.Random random, DateTime minValue, DateTime maxValue ) =>
+			new DateTime( random.NextInt64( minValue.Ticks, maxValue.Ticks ) );
 		#endregion
 
 		#region decimal
@@ -112,7 +150,7 @@ namespace Freestylecoding.Random.DataTypes {
 		/// <exception cref="System.ArgumentOutOfRangeException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
 		/// <remarks>
 		///		<para>
-		///			The <see cref="Random.DataTypes.RandomDataTypes.NextDouble(System.Random, decimal, decimal)"/> overload returns random double-precision floating-point that range from <paramref name="minValue"/> to <paramref name="maxValue"/>.
+		///			The <see cref="Random.DataTypes.RandomDataTypes.NextDouble(System.Random, decimal, decimal)"/> overload returns random decimal that range from <paramref name="minValue"/> to <paramref name="maxValue"/>.
 		///			However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, the method returns <paramref name="minValue"/>.
 		///		</para>
 		///		<para>Unlike the other overloads of the NextDecimal method, which return only non-negative values, this method can return a negative random decimal number.</para>
@@ -315,10 +353,49 @@ namespace Freestylecoding.Random.DataTypes {
 		#endregion
 
 		#region sbyte
+		/// <summary>Returns a non-negative random signed byte.</summary>
+		/// <returns>A 8-bit signed integer that is greater than or equal to 0 and less than <see cref="System.SByte.MaxValue"/>.</returns>
+		/// <remarks>
+		///		<see cref="Random.DataTypes.RandomDataTypes.NextSByte(System.Random)"/> generates a random number whose value ranges from 0 to less than <see cref="System.SByte.MaxValue"/>.
+		///		To generate a random number whose value ranges from 0 to some other positive number, use the <see cref="Random.DataTypes.RandomDataTypes.NextSByte(System.Random, sbyte)"/> method overload.
+		///		To generate a random number within a different range, use the <see cref="Random.DataTypes.RandomDataTypes.NextSByte(System.Random, sbyte, sbyte)"/> method overload.
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static sbyte NextSByte( this System.Random random ) => random.NextSByte( sbyte.MaxValue );
+		/// <summary>Returns a non-negative random signed byte that is less than the specified maximum.</summary>
+		/// <param name="maxValue">
+		///		The exclusive upper bound of the random number to be generated.
+		///		<paramref name="maxValue"/> must be greater than or equal to 0.
+		///	</param>
+		/// <returns>
+		///		A 8-bit signed integer that is greater than or equal to 0, and less than <paramref name="maxValue"/>; that is, the range of return values ordinarily includes 0 but not <paramref name="maxValue"/>.
+		///		However, if <paramref name="maxValue"/> equals 0, 0 is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than 0.</exception>
+		/// <remarks>
+		///		The <see cref="Random.DataTypes.RandomDataTypes.NextSByte(System.Random, sbyte)"/> overload returns random integers that range from 0 to <paramref name="maxValue"/> – 1.
+		///		However, if <paramref name="maxValue"/> is 0, the method returns 0.
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static sbyte NextSByte( this System.Random random, sbyte MaxValue ) => random.NextSByte( 0, MaxValue );
+		public static sbyte NextSByte( this System.Random random, sbyte maxValue ) => random.NextSByte( 0, maxValue );
+		/// <summary>Returns a random signed byte that is within a specified range.</summary>
+		/// <param name="minValue">The inclusive lower bound of the random number returned.</param>
+		/// <param name="maxValue">
+		///		The exclusive upper bound of the random number returned.
+		///		<paramref name="maxValue"/> must be greater than or equal to <paramref name="minValue"/>.
+		///	</param>
+		/// <returns>
+		///		A 8-bit signed byte greater than or equal to <paramref name="minValue"/> and less than <paramref name="maxValue"/>; that is, the range of return values includes <paramref name="minValue"/> but not <paramref name="maxValue"/>.
+		///		If <paramref name="minValue"/> equals <paramref name="maxValue"/>, <paramref name="minValue"/> is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
+		/// <remarks>
+		///		<para>
+		///			The <see cref="Random.DataTypes.RandomDataTypes.NextSByte(System.Random, sbyte, sbyte)"/> overload returns random integers that range from <paramref name="minValue"/> to maxValue – 1.
+		///			However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, the method returns <paramref name="minValue"/>.
+		///		</para>
+		///		<para>Unlike the other overloads of the NextSByte method, which return only non-negative values, this method can return a negative random integer.</para>
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static sbyte NextSByte( this System.Random random, sbyte MinValue, sbyte MaxValue ) =>
 			Convert.ToSByte( random.Next( MinValue, MaxValue ) );
@@ -388,10 +465,46 @@ namespace Freestylecoding.Random.DataTypes {
 		#endregion
 
 		#region TimeSpan
+		/// <summary>Returns a random TimeSpan that is greater than or equal to <see cref="System.TimeSpan.MinValue"/>, and less <see cref="System.TimeSpan.MaxValue"/></summary>
+		/// <returns>
+		///		A TimeSpan that is greater than or equal to <see cref="System.TimeSpan.MinValue"/>, and less than <see cref="System.TimeSpan.MaxValue"/>.
+		/// </returns>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static TimeSpan NextTimeSpan( this System.Random random ) => random.NextTimeSpan( TimeSpan.MaxValue );
+		/// <summary>Returns a random TimeSpan that is greater than or equal to <see cref="System.TimeSpan.MinValue"/>, and less than the specified maximum.</summary>
+		/// <param name="maxValue">
+		///		The exclusive upper bound of the random number to be generated.
+		///		<paramref name="maxValue"/> must be greater than or equal to <see cref="System.TimeSpan.MinValue"/>.
+		///	</param>
+		/// <returns>
+		///		A TimeSpan that is greater than or equal to <see cref="System.TimeSpan.MinValue"/>, and less than <paramref name="maxValue"/>; that is, the range of return values ordinarily includes <see cref="System.TimeSpan.MinValue"/> but not <paramref name="maxValue"/>.
+		///		However, if <paramref name="maxValue"/> equals <see cref="System.TimeSpan.MinValue"/>, <see cref="System.TimeSpan.MinValue"/> is returned.
+		/// </returns>
+		/// <remarks>
+		///		<para>
+		///		The <see cref="Random.DataTypes.RandomDataTypes.NextTimeSpan(System.Random,TimeSpan)"/> overload returns random TimeSpans that range from <see cref="System.TimeSpan.MinValue"/> to <paramref name="maxValue"/>.
+		///		However, if <paramref name="maxValue"/> is <see cref="System.TimeSpan.MinValue"/>, the method returns <see cref="System.TimeSpan.MinValue"/>.
+		///		</para>
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static TimeSpan NextTimeSpan( this System.Random random, TimeSpan MaxValue ) => random.NextTimeSpan( TimeSpan.Zero, MaxValue );
+		/// <summary>Returns a TimeSpan that is within a specified range.</summary>
+		/// <param name="minValue">The inclusive lower bound of the random number returned.</param>
+		/// <param name="maxValue">
+		///		The exclusive upper bound of the random number returned.
+		///		<paramref name="maxValue"/> must be greater than or equal to <paramref name="minValue"/>.
+		///	</param>
+		/// <returns>
+		///		A TimeSpan greater than or equal to <paramref name="minValue"/> and less than <paramref name="maxValue"/>; that is, the range of return values includes <paramref name="minValue"/> but not <paramref name="maxValue"/>.
+		///		If <paramref name="minValue"/> equals <paramref name="maxValue"/>, <paramref name="minValue"/> is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
+		/// <remarks>
+		///		<para>
+		///			The <see cref="Random.DataTypes.RandomDataTypes.NextTimeSpan(System.Random, System.TimeSpan, System.TimeSpan)"/> overload returns random TimeSpans that range from <paramref name="minValue"/> to <paramref name="maxValue"/>.
+		///			However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, the method returns <paramref name="minValue"/>.
+		///		</para>
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static TimeSpan NextTimeSpan( this System.Random random, TimeSpan MinValue, TimeSpan MaxValue ) =>
 			new TimeSpan( random.NextInt64( MinValue.Ticks, MaxValue.Ticks ) );
@@ -540,15 +653,90 @@ namespace Freestylecoding.Random.DataTypes {
 		#endregion
 
 		#region string
+		/// <summary>Returns a random string between 0 and 4000 charachers long.</summary>
+		/// <returns>A string that has a length greater than or equal to 0 and less than 4000.</returns>
+		/// <remarks>
+		///		<para>
+		///			<see cref="Random.DataTypes.RandomDataTypes.NextString(System.Random)"/> generates a random string whose length ranges from 0 to less than 4000.
+		///			To generate a random string whose length ranges from 0 to some other positive number, use the <see cref="Random.DataTypes.RandomDataTypes.NextString(System.Random, string)"/> method overload.
+		///			To generate a random string within a different range, use the <see cref="Random.DataTypes.RandomDataTypes.NextString(System.Random, string, string)"/> method overload.
+		///		</para>
+		///		<para>
+		///			The only characters that are excluded from the random characters returned are:
+		///			<list type="bullet">
+		///				<item>the control characters (i.e. ASCII characters 0 - 31)</item>
+		///				<item><see cref="System.Char.MaxValue"/></item>
+		///			</list>
+		///			However, the whitespace characters are included, even though they are considered control characters.
+		///			That is to say Carrage Return, Line Feed, and Horizontal Tab are included.
+		///		</para>
+		///		<para>
+		///			4,000 was picked as the default upper bound due to a combination of two reasons:
+		///			<list type="number">
+		///				<item><see cref="System.String"/> uses Unicode characters, and</item>
+		///				<item>The max length of a NVARCHAR column in MS SQL Server (or Azure SQL), without specifying MAX, is 4,000 characters.</item>
+		///			</list>
+		///		</para>
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static string NextString( this System.Random random ) => random.NextString( 4000 );
+		/// <summary>Returns a random string that is less than the specified maximum length.</summary>
+		/// <param name="maxValue">
+		///		The exclusive upper bound for the length of the random string to be generated.
+		///		<paramref name="maxValue"/> must be greater than or equal to 0.</param>
+		/// <returns>
+		///		A string that has a length greater than or equal to 0, and less than <paramref name="maxValue"/>; that is, the range of the lengths of return value ordinarily includes 0 but not <paramref name="maxValue"/>.
+		///		However, if <paramref name="maxValue"/> equals 0, <see cref="System.String.Empty"/> is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than 0.</exception>
+		/// <remarks>
+		///		<para>
+		///			The <see cref="Random.DataTypes.RandomDataTypes.NextString(System.Random, string)"/> overload returns random strings with a length that ranges from 0 to <paramref name="maxValue"/> – 1.
+		///			However, if <paramref name="maxValue"/> is 0, the method returns <see cref="System.String.Empty"/>.
+		///		</para>
+		///		<para>
+		///			The only characters that are excluded from the random characters returned are:
+		///			<list type="bullet">
+		///				<item>the control characters (i.e. ASCII characters 0 - 31)</item>
+		///				<item><see cref="System.Char.MaxValue"/></item>
+		///			</list>
+		///			However, the whitespace characters are included, even though they are considered control characters.
+		///			That is to say Carrage Return, Line Feed, and Horizontal Tab are included.
+		///		</para>
+		/// </remarks>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static string NextString( this System.Random random, int MaxLength ) => random.NextString( 0, MaxLength );
+		public static string NextString( this System.Random random, int maxLength ) => random.NextString( 0, maxLength );
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static string NextString( this System.Random random, int MinLength, int MaxLength ) =>
+		/// <summary>Returns a random string with a length that is within a specified range.</summary>
+		/// <param name="minValue">The inclusive lower bound for the length of the random string returned.</param>
+		/// <param name="maxValue">
+		///		The exclusive upper bound for the length of the random string returned.
+		///		<paramref name="maxValue"/> must be greater than or equal to <paramref name="minValue"/>.
+		///	</param>
+		/// <returns>
+		///		A string whose length is greater than or equal to <paramref name="minValue"/> and less than <paramref name="maxValue"/>; that is, the range of the lengths of return value ordinarily includes <paramref name="minValue"/> but not <paramref name="maxValue"/>.
+		///		If <paramref name="minValue"/> equals <paramref name="maxValue"/>, <see cref="System.String.Empty"/> is returned.
+		/// </returns>
+		/// <exception cref="System.ArgumentOutOfRangeException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
+		/// <remarks>
+		///		<para>
+		///			The <see cref="Random.DataTypes.RandomDataTypes.NextString(System.Random, string, string)"/> overload returns random strings whose length range from <paramref name="minValue"/> to <paramref name="maxValue"/> – 1.
+		///			However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, the method returns <see cref="System.String.Empty" />.
+		///		</para>
+		///		<para>
+		///			The only characters that are excluded from the random characters returned are:
+		///			<list type="bullet">
+		///				<item>the control characters (i.e. ASCII characters 0 - 31)</item>
+		///				<item><see cref="System.Char.MaxValue"/></item>
+		///			</list>
+		///			However, the whitespace characters are included, even though they are considered control characters.
+		///			That is to say Carrage Return, Line Feed, and Horizontal Tab are included.
+		///		</para>
+		/// </remarks>
+		public static string NextString( this System.Random random, int minLength, int maxLength ) =>
 			new string(
 				Enumerable
-					.Range( 0, random.Next( MinLength, MaxLength ) )
+					.Range( 0, random.Next( minLength, maxLength ) )
 					.Select( i => {
 						char rc;
 
